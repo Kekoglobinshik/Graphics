@@ -9,13 +9,15 @@ uniform mat4 Pmatrix, Vmatrix, Mmatrix, Lmatrix, PmatrixLight;
 out vec2 vUV;
 out vec3 vNormal;
 out vec3 vLightPos;
+out vec4 vPosition;
 
 void main(void) {
-    vec4 lightPos = Lmatrix*vec4(position, 1.);
+    vec4 lightPos = Lmatrix* Mmatrix * vec4(position, 1);
     lightPos=PmatrixLight*lightPos;
     vec3 lightPosDNC=lightPos.xyz/lightPos.w;
-    vLightPos=vec3(0.5,0.5,0.5)+lightPosDNC*0.5;
-    gl_Position = Pmatrix*Vmatrix*Mmatrix*vec4(position, 1.);
-    vNormal=normal;
+
+    vLightPos=vec3(0.5, 0.5, 0.5)+lightPosDNC*0.5;
+    gl_Position = Pmatrix*Vmatrix * Mmatrix*vec4(position, 1.);
+    vNormal=normalize(mat3(Mmatrix) * normal);
     vUV=uv;
 }

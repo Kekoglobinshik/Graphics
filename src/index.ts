@@ -11,7 +11,7 @@ import {Camera} from "./libs/camera";
 import {Skybox} from "./libs/skybox";
 
 const firstDragonTransform = new Move(new vec3([0, 0, 0]), new vec3([1, 1, 1]));
-const secondDragonTransform = new Move(new vec3([0, 0, 0]), new vec3([1, 1, 1]));
+const secondDragonTransform = new Move(new vec3([0, 0, 10]), new vec3([1, 1, 1]));
 const floorTransform = new Move(new vec3([0, 0, 0]), new vec3([1, 1, 1]));
 const lightDirection = new vec3([0.58, 0.58, -0.58]);
 let lightMatrix: mat4;
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const skyboxFragShader = await Helper.MakeRequest('./resources/shaders/skybox.frag', 'text');
 
     const cubeTexture = CubeTexture.loadImageAsCube(CubeTexture.oceanCubeMapPath());
-    console.log(cubeTexture);
+
     const dragonJson = await Helper.GetJson('./resources/dragon.json');
 
     const shadowShader = new Shader(shadowVertShader, shadowFragShader);
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const textureRender = new RenderTexture();
     const firstDragonModel = new Model(dragonJson.vertices, dragonJson.indices, [Texture.loadImage('./resources/dragon.png'), textureRender]);
     const secondDragonModel = new Model(dragonJson.vertices, dragonJson.indices, [Texture.loadImage('./resources/dragon.png'), textureRender]);
-    const floorModel = Model.createFloor(30, Texture.loadImage('./resources/granit.jpg'));
+    const floorModel = Model.createFloor(20, Texture.loadImage('./resources/granit.jpg'));
     const skybox = new Skybox(cubeTexture, skyboxVertShader, skyboxFragShader);
 
     WebGL.context.enable(WebGL.context.DEPTH_TEST);

@@ -20,11 +20,8 @@ const float mat_shininess=10.;
 void main(void) {
     vec2 uv_shadowMap=vLightPos.xy;
     vec4 shadowMapColor=texture(samplerShadowMap, uv_shadowMap);
-    float variance=shadowMapColor.g-shadowMapColor.r*shadowMapColor.r;
-
-    variance=max(variance, 0.002);
-    float d=shadowMapColor.r-vLightPos.z;
-    float shadowCoeff= variance / (variance + d*d);
+    float zShadowMap=shadowMapColor.r;
+    float shadowCoeff=1.-smoothstep(0.002, 0.003, vLightPos.z-zShadowMap);
     vec3 color=vec3(texture(sampler, vUV));
     vec3 I_ambient=source_ambient_color*mat_ambient_color;
     vec3 I_diffuse=source_diffuse_color*mat_diffuse_color*max(0., dot(vNormal, source_direction));
