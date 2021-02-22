@@ -5,7 +5,7 @@ export class Shader {
     private _uniformCash: Map<string,  WebGLUniformLocation> = new Map<string, WebGLUniformLocation>();
 
     constructor(vertexShader: string, fragmentShader: string) {
-        const shaderV = <WebGLShader>WebGL.context.createShader(WebGL.context.VERTEX_SHADER);
+        const shaderV = WebGL.context.createShader(WebGL.context.VERTEX_SHADER) as WebGLShader;
         WebGL.context.shaderSource(shaderV, vertexShader);
         WebGL.context.compileShader(shaderV);
 
@@ -14,7 +14,7 @@ export class Shader {
             throw new Error('Failed to compile vertex shader');
         }
 
-        const shaderF = <WebGLShader>WebGL.context.createShader(WebGL.context.FRAGMENT_SHADER);
+        const shaderF = WebGL.context.createShader(WebGL.context.FRAGMENT_SHADER) as WebGLShader;
         WebGL.context.shaderSource(shaderF, fragmentShader);
         WebGL.context.compileShader(shaderF);
 
@@ -44,7 +44,7 @@ export class Shader {
     getUniformLocation(name: string): WebGLUniformLocation {
         let location = this._uniformCash.get(name);
         if (!location) {
-            location = <WebGLUniformLocation>WebGL.context.getUniformLocation(<WebGLProgram>this._program, name);
+            location = WebGL.context.getUniformLocation(this._program as WebGLProgram, name) as WebGLUniformLocation;
         }
 
         return location;

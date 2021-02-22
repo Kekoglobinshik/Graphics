@@ -36,11 +36,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const dragonJson = await Helper.GetJson('./resources/dragon.json');
 
     const shadowShader = new Shader(shadowVertShader, shadowFragShader);
-    const shaderProgram = new Shader(modelVertShader, modelFragShader);
+    const programShader = new Shader(modelVertShader, modelFragShader);
 
-    WebGL.context.uniform1i(shaderProgram.getUniformLocation(ShaderVariable.sampler), 0);
-    WebGL.context.uniform1i(shaderProgram.getUniformLocation(ShaderVariable.samplerShadowMap), 1);
-    WebGL.context.uniform3fv(shaderProgram.getUniformLocation(ShaderVariable.lightDirection), lightDirection.xyz);
+    programShader.use();
+    WebGL.context.uniform1i(programShader.getUniformLocation(ShaderVariable.sampler), 0);
+    WebGL.context.uniform1i(programShader.getUniformLocation(ShaderVariable.samplerShadowMap), 1);
+    WebGL.context.uniform3fv(programShader.getUniformLocation(ShaderVariable.lightDirection), lightDirection.xyz);
 
     const projectionShadow = mat4.orthographic(-50, 50, -50, 50, 1, 100);
 
@@ -83,19 +84,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             floorModel.render(() => WebGL.context.uniformMatrix4fv(shadowShader.getUniformLocation(ShaderVariable.Mmatrix), false, floorTransform.getModelMatrix().all()));
         });
 
-        shaderProgram.use();
+        programShader.use();
         WebGL.context.depthFunc(WebGL.context.LESS);
         WebGL.context.viewport(0.0, 0.0, canvas.width, canvas.height);
         WebGL.context.clearColor(0.0, 0.0, 0.0, 1.0);
         WebGL.context.clear(WebGL.context.COLOR_BUFFER_BIT | WebGL.context.DEPTH_BUFFER_BIT);
-        WebGL.context.uniformMatrix4fv(shaderProgram.getUniformLocation(ShaderVariable.Pmatrix), false, camera.getProjection().all());
-        WebGL.context.uniformMatrix4fv(shaderProgram.getUniformLocation(ShaderVariable.Vmatrix), false, camera.getView().all());
-        WebGL.context.uniformMatrix4fv(shaderProgram.getUniformLocation(ShaderVariable.PmatrixLight), false, projectionShadow.all());
-        WebGL.context.uniformMatrix4fv(shaderProgram.getUniformLocation(ShaderVariable.Lmatrix), false, lightMatrix.all());
+        WebGL.context.uniformMatrix4fv(programShader.getUniformLocation(ShaderVariable.Pmatrix), false, camera.getProjection().all());
+        WebGL.context.uniformMatrix4fv(programShader.getUniformLocation(ShaderVariable.Vmatrix), false, camera.getView().all());
+        WebGL.context.uniformMatrix4fv(programShader.getUniformLocation(ShaderVariable.PmatrixLight), false, projectionShadow.all());
+        WebGL.context.uniformMatrix4fv(programShader.getUniformLocation(ShaderVariable.Lmatrix), false, lightMatrix.all());
 
-        dragonModel.render(() => WebGL.context.uniformMatrix4fv(shaderProgram.getUniformLocation(ShaderVariable.Mmatrix), false, dragonTransform.getModelMatrix().all()));
-        // cubeModel.render(() => WebGL.context.uniformMatrix4fv(shaderProgram.getUniformLocation(ShaderVariable.Mmatrix), false, cubeTransform.getModelMatrix().all()));
-        floorModel.render(() => WebGL.context.uniformMatrix4fv(shaderProgram.getUniformLocation(ShaderVariable.Mmatrix), false, floorTransform.getModelMatrix().all()));
+        dragonModel.render(() => WebGL.context.uniformMatrix4fv(programShader.getUniformLocation(ShaderVariable.Mmatrix), false, dragonTransform.getModelMatrix().all()));
+        // cubeModel.render(() => WebGL.context.uniformMatrix4fv(programShader.getUniformLocation(ShaderVariable.Mmatrix), false, cubeTransform.getModelMatrix().all()));
+        floorModel.render(() => WebGL.context.uniformMatrix4fv(programShader.getUniformLocation(ShaderVariable.Mmatrix), false, floorTransform.getModelMatrix().all()));
         // skybox.render(camera);
 
         WebGL.context.flush();
@@ -103,4 +104,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     animate(0);
+});
+
+[].forEach.call(document.getElementsByClassName('light'), (item: Element) => {
+    item.addEventListener('input', (event: any) => {
+        // @ts-ignore
+        lightDirection[event.target.id] = event.target.value;
+        updateLightMatrix();
+    });
 });
