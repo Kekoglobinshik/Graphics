@@ -65,33 +65,33 @@ export class CubeTexture extends Texture {
         WebGL.context.generateMipmap(WebGL.context.TEXTURE_CUBE_MAP);
         WebGL.context.texParameteri(WebGL.context.TEXTURE_CUBE_MAP, WebGL.context.TEXTURE_MIN_FILTER, WebGL.context.LINEAR_MIPMAP_LINEAR);
 
-        return new CubeTexture(<WebGLTexture>texture);
+        return new CubeTexture(texture as WebGLTexture);
     }
 
     static oceanCubeMapPath = () => [
         {
             target: WebGL.context.TEXTURE_CUBE_MAP_POSITIVE_X,
-            url: 'resources/skybox/sb_ocean_right.jpg',
+            url: '../resources/skybox/right.jpg',
         },
         {
             target: WebGL.context.TEXTURE_CUBE_MAP_NEGATIVE_X,
-            url: 'resources/skybox/sb_ocean_left.jpg',
+            url: '../resources/skybox/left.jpg',
         },
         {
             target: WebGL.context.TEXTURE_CUBE_MAP_POSITIVE_Y,
-            url: 'resources/skybox/sb_ocean_top.jpg',
+            url: '../resources/skybox/up.jpg',
         },
         {
             target: WebGL.context.TEXTURE_CUBE_MAP_NEGATIVE_Y,
-            url: 'resources/skybox/sb_ocean_bottom.jpg',
+            url: '../resources/skybox/down.jpg',
         },
         {
             target: WebGL.context.TEXTURE_CUBE_MAP_POSITIVE_Z,
-            url: 'resources/skybox/sb_ocean_front.jpg',
+            url: '../resources/skybox/back.jpg',
         },
         {
             target: WebGL.context.TEXTURE_CUBE_MAP_NEGATIVE_Z,
-            url: 'resources/skybox/sb_ocean_back.jpg',
+            url: '../resources/skybox/front.jpg',
         },
     ];
 }
@@ -101,12 +101,12 @@ export class RenderTexture extends Texture {
     private _renderBuffer: WebGLRenderbuffer;
 
     constructor() {
-        super(<WebGLTexture>WebGL.context.createTexture());
+        super(WebGL.context.createTexture() as WebGLTexture);
 
-        this._frameBuffer = <WebGLFramebuffer>WebGL.context.createFramebuffer();
+        this._frameBuffer = WebGL.context.createFramebuffer() as WebGLFramebuffer;
         WebGL.context.bindFramebuffer(WebGL.context.FRAMEBUFFER, this._frameBuffer);
 
-        this._renderBuffer = <WebGLRenderbuffer>WebGL.context.createRenderbuffer();
+        this._renderBuffer = WebGL.context.createRenderbuffer() as WebGLRenderbuffer;
         WebGL.context.bindRenderbuffer(WebGL.context.RENDERBUFFER, this._renderBuffer);
         WebGL.context.renderbufferStorage(WebGL.context.RENDERBUFFER, WebGL.context.DEPTH_COMPONENT16, 512, 512);
 
