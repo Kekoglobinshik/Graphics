@@ -1,5 +1,5 @@
-import {WebGL} from "../WebGLContext";
-import {Texture} from "../texture";
+import {WebGL} from "./WebGLContext";
+import {Texture} from "./texture";
 
 export class Model {
     private _vertexBuffer:  WebGLBuffer | null;

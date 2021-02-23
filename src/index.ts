@@ -6,7 +6,7 @@ import {ShaderVariable} from "./libs/variables";
 import vec3 from "./libs/tsm/vec3";
 import mat4 from "./libs/tsm/mat4";
 import {CubeTexture, RenderTexture, Texture} from "./libs/texture";
-import {Model} from "./libs/tsm/model";
+import {Model} from "./libs/model";
 import {Camera} from "./libs/camera";
 import {Skybox} from "./libs/skybox";
 
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 });
 
-window.addEventListener("keydown", (event: KeyboardEvent) => {
+window.addEventListener("keypress", (event: KeyboardEvent) => {
     switch (event.key) {
         case 'w':
             firstDragonTransform.translate(new vec3([-1, 0, 0]));
