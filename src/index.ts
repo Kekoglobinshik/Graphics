@@ -78,7 +78,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             fps_time = fps_frames = 0;
         }
 
-
         camera.update();
 
         textureRender.renderToTexture(() => {

@@ -113,7 +113,6 @@ export class RenderTexture extends Texture {
         WebGL.context.framebufferRenderbuffer(WebGL.context.FRAMEBUFFER, WebGL.context.DEPTH_ATTACHMENT,
             WebGL.context.RENDERBUFFER, this._renderBuffer);
 
-
         WebGL.context.bindTexture(WebGL.context.TEXTURE_2D, this._texture);
         WebGL.context.texParameteri(WebGL.context.TEXTURE_2D, WebGL.context.TEXTURE_MAG_FILTER, WebGL.context.LINEAR);
         WebGL.context.texParameteri(WebGL.context.TEXTURE_2D, WebGL.context.TEXTURE_MIN_FILTER, WebGL.context.LINEAR);

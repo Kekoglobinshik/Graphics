@@ -5,7 +5,12 @@
     <title>WebGL Project</title>
 <script defer src="index.js"></script></head>
 <body>
-    <canvas id="canvas" width="1280" height="1024"></canvas>
+    <canvas id="canvas" width="1440" height="900"></canvas>
     <div id="fps_counter" style="position: absolute; z-index: 1000; display: block; top: 10px; left: 10px; width: 80px; text-align: center; height: 20px; background-color: white;" >FPS</div>
+    <div style="display: flex; flex-direction: column; position: absolute; right: 100px; top: 10px">
+        <span>X:</span><input class="light" type="range" min="-1" max="1" id="x" step="0.1" value="0.5">
+        <span>Y:</span><input class="light" type="range" min="-1" max="1" id="y" step="0.1" value="0.5">
+        <span>Z:</span><input class="light" type="range" min="-1" max="1" id="z" step="0.1" value="0.5">
+    </div>
 </body>
 </html>
